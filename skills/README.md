@@ -18,6 +18,16 @@ D=$(mktemp -d) && git clone --depth 1 https://github.com/artemiyredkov/awesome_r
 
 Дальше открой проект в Claude Code и напиши `/unpack-context` или «проведи распаковку контекста». Пути и вызов взяты из [документации Claude Code](https://code.claude.com/docs/en/skills).
 
+### Cursor и Codex
+
+Оба клиента читают скиллы из папки `.agents/skills/`: в проекте (скилл будет работать только в нём) или в `~/.agents/skills/` (во всех проектах). Выполни из корня проекта:
+
+```bash
+D=$(mktemp -d) && git clone --depth 1 https://github.com/artemiyredkov/awesome_readme.git "$D" && mkdir -p .agents/skills && cp -r "$D/skills/unpack-context" .agents/skills/
+```
+
+Вызов: в Cursor набери `/unpack-context` в чате агента, в Codex набери `$unpack-context` или открой список через `/skills`. Агент может выбрать скилл и сам, если ты напишешь «проведи распаковку контекста»: он решает по описанию скилла. Cursor читает ещё и `.claude/skills/`, поэтому команда из раздела про Claude Code подойдёт и ему. Пути и вызов взяты из документации [Cursor](https://cursor.com/docs/context/skills) и [Codex](https://learn.chatgpt.com/docs/build-skills).
+
 ### Другой агент
 
 Скачай `skills/unpack-context/SKILL.md` в папку проекта и напиши агенту: «Прочитай SKILL.md и проведи интервью». Скилл — обычный markdown-файл, ему нужно только читать и записывать файлы в папке проекта.
@@ -25,6 +35,6 @@ D=$(mktemp -d) && git clone --depth 1 https://github.com/artemiyredkov/awesome_r
 ## Что нужно знать
 
 - Скилл сам ничего не отправляет и не публикует: файлы `about-me.md`, `about-me/` и `about-me.draft.md` создаются у тебя в проекте.
-- В `CLAUDE.md` через `@` подключай только `about-me.md`. Файлы из `about-me/` через `@` не подключай: тогда они будут грузиться в каждую сессию, и экономия токенов пропадёт.
+- В Claude Code через `@` в `CLAUDE.md` подключай только `about-me.md`. Файлы из `about-me/` через `@` не подключай: тогда они будут грузиться в каждую сессию, и экономия токенов пропадёт.
 - Не называй в интервью настоящих имён коллег, зарплаты, пароли, ключи и данные клиентов. Скилл напомнит об этом в начале.
 - `about-me.md` и папка `about-me/` личные. Если репозиторий общий или публичный, добавь их в `.gitignore`.
